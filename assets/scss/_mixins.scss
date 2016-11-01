@@ -1,0 +1,92 @@
+@mixin alertWindow {
+  position: absolute;
+  top: 25%;
+  left: 27%;
+  height: auto;
+  padding: 2%;
+  padding-bottom: 3%;
+  background-color: $alertWindowBackground;
+  border: 1px, solid, DarkCyan;
+  border-radius: 15px;
+  h1{
+    font-family: $coiny;
+    color: $colorAlertTitle;
+    @include mQ(600px, 375px) {
+      font-size: 1.3em;
+    }
+    @include mQ (374px) {
+      font-size: 1.1em;
+    }
+  }
+  h4, p {
+    color: $colorAlertBody;
+    font-family: $montserrat;
+    @include mQ(600px, 375px) {
+      font-size: .8em;
+    }
+    @include mQ(374px) {
+      font-size: .6em;
+    }
+  }
+
+
+  //shadow-box
+  -webkit-box-shadow: 10px 10px 166px 53px rgba(0,139,139,0.69);
+  -moz-box-shadow: 10px 10px 166px 53px rgba(0,139,139,0.69);
+  box-shadow: 10px 10px 166px 53px rgba(0,139,139,0.69);
+  @include grid(2, 10%);
+  text-align: center;
+
+  //button styles
+  ul { width: 100%; }
+  li {
+    color: white;
+    margin: 2%;
+    background-color: $buttonBackground;
+    border-radius: 10px;
+    float: left;
+    height: 30px;
+    line-height: 30px;
+    font-family: $montserrat;
+    letter-spacing: 2px;
+    width: (86% / 3);
+    border: 1px solid white;
+    &:hover {
+      background-color: white;
+      color: $buttonBackground;
+      border: 1px solid $buttonBackground;
+    }
+    @include mQ(600px) {
+      margin-left: 20%;
+      width: 60%;
+      line-height: 25px;
+      height: 25px;
+    }
+  }
+}
+
+//stablishing a grid system
+@mixin grid ($cols, $mgn) {
+  float: left;
+  width: ((100% - (($cols - 1) * $mgn)) / $cols );
+  margin-right: $mgn;
+  margin-bottom: $mgn;
+  // the reason for (#{$cols}n) is that if we do $colsn, the Sass will interpret that as a variable but we don't have such a variable. So it won't work.
+  &:nth-child(#{$cols}n){
+    margin-right: 0;
+  }
+}
+
+//the 3 dots below turn the argument $arg into a list of variables whose quantity is determined later on by nth($arg,1)
+@mixin mQ($arg...) {
+  @if length($arg) == 1{
+    @media screen and (max-width: nth($arg, 1)) {
+      @content;
+    }
+  }
+  @if length($arg) == 2 {
+    @media screen and (max-width: nth($arg, 1)) and (min-width: nth($arg, 2)) {
+      @content;
+    }
+  }
+}
